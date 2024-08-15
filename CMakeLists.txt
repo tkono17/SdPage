@@ -9,7 +9,7 @@ set(DESTINATION $ENV{SWDIR})
 set(CMAKE_INSTALL_PREFIX ${DESTINATION})
 
 set(scriptfiles
-  scripts/sdm-gen.py)
+  scripts/sdm-toJson.py)
 
 # Installation
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/sdmodel
