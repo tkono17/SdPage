@@ -8,11 +8,11 @@ import re
 import json
 import yaml
 
-from .model import ComponentType, ComponentInstance, Model
+from .model import Component, Model, Page
 
 logger = logging.getLogger(__name__)
 
-class ModelReader:
+class PageReader:
     def __init__(self, fn=''):
         self.filePath = fn
         self.data = None
