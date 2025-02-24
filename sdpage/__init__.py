@@ -2,4 +2,6 @@
 # sdmodel.__init__.py
 #----------------------------------------------------------------------
 from .model import *
+from .builder import *
 from .io import *
+

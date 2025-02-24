@@ -146,7 +146,6 @@ class Page:
             properties[pkey] = pvalue
         jdata['properties'] = properties
 
-        print(jdata)
         with open(fn, 'w') as fout:
             logger.info(f'Save model to JSON {fn}')
             json.dump(jdata, fout, indent=2)
@@ -155,52 +154,3 @@ class Page:
         logger.warning('saveXml is not available yet')
     pass
 
-class PageBuilder(Page):
-    def __init__(self):
-        super().__init__()
-
-    def setup(self):
-        pass
-
-    def findNodes(self, element):
-        nodes = []
-        cnames = []
-        if element:
-            if element.baseComponent:
-                for child in element.baseComponent.children:
-                    v = self.findNodes(child)
-                    for c in v:
-                        cfname = c.fullName()
-                        if c and cfname not in cnames:
-                            cnames.append(cfname)
-                            nodes.append(c)
-            else:
-                for c in element.children:
-                    v = self.findNodes(c)
-                    for c in v:
-                        cfname = c.fullName()
-                        if c and cfname not in cnames:
-                            cnames.append(cfname)
-                            nodes.append(c)
-            if element.baseComponent:
-                nodes.append(element.baseComponent)
-            if element.name not in cnames:
-                nodes.append(element)
-        return nodes
-    
-    def rearrange(self):
-        logger.info('Rearrange page model={self.model}')
-        if self.model:
-            logger.info('Rearrange page')
-            nodes = self.findNodes(self.model)
-            print(nodes)
-            for node in nodes:
-                logger.info(f'  node {node.name}')
-                if issubclass(node.__class__, Component):
-                    self.components.append(node)
-                fullname = node.fullName()
-                for key, value in node.properties.items():
-                    self.properties[f'{fullname}.{key}'] = value
-        else:
-            logger.warning('Builder model is None')
-    
